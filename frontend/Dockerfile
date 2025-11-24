@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM node:20-alpine AS build
+FROM node:20.6.0-alpine3.21 AS build
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
