@@ -1,0 +1,27 @@
+server:
+  port: ${PORT}
+  url: ${SERVER_URL}
+
+rapidapi:
+  disney:
+    url: ${RAPIDAPI_DISNEY_URL}
+    host: ${RAPIDAPI_DISNEY_HOST}
+    apikey: ${RAPIDAPI_DISNEY_APIKEY}
+
+  netflix:
+    url: ${RAPIDAPI_NETFLIX_URL}
+    host: ${RAPIDAPI_NETFLIX_HOST}
+    apikey: ${RAPIDAPI_NETFLIX_APIKEY}
+
+spring:
+  data:
+    mongodb:
+      uri: ${SPRING_MONGODB_URI}
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html

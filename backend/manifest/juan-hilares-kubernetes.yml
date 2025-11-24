@@ -1,0 +1,59 @@
+# MINIKUBE FUNCIONA EN CODESPACE | LOCAL
+# KUBECTL FUNCIONA DIRECTO EN KILLERCODA (SIN MINIKUBE)
+
+# consultar versión de minikube
+minikube version
+
+# consultar si minikube esta en start o stop
+minikube status
+
+# iniciar clúster kubernetes
+minikube start
+
+# ingresar a la carpeta de los manifiestos de kubernetes (manifest)
+cd manifest
+
+# listar namespace
+kubectl get namespace
+kubectl get ns
+
+# crear un namespace "juan-hilares-hackatoon" por comando mediante un archivo: "juan-hilares-namespace.yml"
+kubectl apply -f juan-hilares-namespace.yml
+
+# consultar namespace en uso por "juan-hilares-namespace.yml" | LINUX
+kubectl config view --minify | grep juan-hilares-hackatoon
+
+# consultar namespace en uso por "default" | WINDOWS
+kubectl config view --minify | findstr juan-hilares-hackatoon
+
+# cambiar un namespace en uso por "default" a "juan-hilares-hackatoon"
+kubectl config set-context --current --juan-hilares-hackatoon=juan-jose
+
+# crear un secret "creadentials" dentro del namespace "juan-hilares-hackatoon" por comando mediante un archivo: "juan-hilares-secret.yml"
+kubectl apply -f juan-hilares-secret.yml
+
+# crear un service "rapid-api-be" dentro del namespace "juan-hilares-hackatoon" por comando mediante un archivo: "juan-hilares-sercive.yml"
+kubectl apply -f juan-hilares-sercive.yml
+
+# crear un deployment "rapid-api-be" dentro del namespace "juan-hilares-hackatoon" por comando mediante un archivo: "juan-hilares-deployment.yml"
+kubectl apply -f juan-hilares-deployment.yml
+
+# consultar todos los recursos de un namespace "juan-hilares-hackatoon"
+kubectl get all -n juan-hilares-hackatoon
+
+# consultar todos los recursos y secret de un namespace "juan-hilares-hackatoon"
+kubectl get all,secrets -n juan-hilares-hackatoon
+
+# listar services del namespace "juan-hilares-hackatoon"
+minikube service rapid-api-be -n juan-hilares-hackatoon
+minikube service list
+
+# probar el microservicio dentro del clúster con curl
+curl http://192.168.49.2:30001/v1/api/age-detector
+curl http://192.168.49.2:30001/v1/api/age-detector/1
+
+# crear un túnel de puerto la máquina local (host) y el clúster de Kubernetes
+kubectl port-forward service/rapid-api-be 8090:30001
+
+# ver los logs del pod (logs del proyecto)
+kubectl logs nombre-pod

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rapid-api-be
+  namespace: juan-hilares-hackatoon
+spec:
+  type: LoadBalancer 
+  ports:
+  - port: 30001 
+    targetPort: 8085 
+    nodePort: 30001
+  selector:
+    app: rapid-api-be  # Debe coincidir con las etiquetas del Deployment

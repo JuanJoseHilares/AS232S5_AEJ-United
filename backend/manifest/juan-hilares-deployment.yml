@@ -1,0 +1,23 @@
+# kubectl apply -f 4-deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rapid-api-be
+  namespace: juan-hilares-hackatoon
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: rapid-api-be        # Debe coincidir con las etiquetas del Service
+  template:
+    metadata:
+      labels:
+        app: rapid-api-be      # Debe coincidir con las etiquetas del Service
+    spec:
+      containers:
+      - name: rapid-api-be
+        image: juan/rapid-api-be:1.0   # Reemplaza con tu imagen Docker Hub
+        imagePullPolicy: IfNotPresent        # Evitar traer siempre la última versión si hay una actual
+        envFrom:
+        - secretRef:
+            name: credentials  # Esto cargará todos los valores como variables de entorno
