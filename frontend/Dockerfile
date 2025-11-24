@@ -1,8 +1,14 @@
 # Stage 1: Build
-FROM node:20.6.0-alpine3.21 AS build
+FROM node:20.6-alpine AS build
 WORKDIR /app
+
+# Declarar el ARG y pasarlo como ENV
+ARG REACT_APP_APIURL
+ENV REACT_APP_APIURL=$REACT_APP_APIURL
+
 COPY package*.json ./
 RUN npm install --legacy-peer-deps
+
 COPY . .
 RUN npm run build
 
