@@ -1,26 +1,23 @@
-# ---------- Stage 1: Build con Maven ----------
-FROM maven:3.9-eclipse-temurin-17 AS builder
+# Etapa 1: Build con Node 20
+FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copiar pom.xml y descargar dependencias (cache eficiente)
-COPY pom.xml .
-RUN mvn dependency:go-offline
+# Copiar package.json y package-lock.json e instalar dependencias
+COPY package*.json ./
+RUN npm install --legacy-peer-deps
 
-# Copiar el resto del código fuente
-COPY src ./src
+# Copiar el resto de la app
+COPY . .
 
-# Compilar y empaquetar (sin tests)
-RUN mvn clean package -Dmaven.test.skip=true
+# Recibir variable de build
+ARG REACT_APP_APIURL
+ENV REACT_APP_APIURL=$REACT_APP_APIURL
 
-# ---------- Stage 2: Imagen final ligera ----------
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
+# Asegurar permisos y construir
+RUN chmod -R 755 /app/node_modules/.bin && npm run build
 
-# Copiar el jar desde el builder
-COPY --from=builder /app/target/*.jar app.jar
-
-# Exponer el puerto de Spring Boot
-EXPOSE 8085
-
-# Ejecutar la aplicación
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Etapa 2: Servir con Nginx
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
