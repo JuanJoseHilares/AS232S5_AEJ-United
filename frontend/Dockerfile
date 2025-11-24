@@ -1,19 +1,21 @@
+# Stage 1: Build
 FROM node:20-alpine AS build
 WORKDIR /app
 
-# Copiar solo package.json y package-lock.json primero
-COPY package.json package-lock.json ./
+# Copiamos los package.json explícitamente desde el contexto
+COPY ./package.json ./package-lock.json ./
 RUN npm install --legacy-peer-deps
 
-# Copiar el resto de la app
-COPY . .
+# Copiamos todo lo demás
+COPY ./ ./
 
+# Variable de entorno
 ARG REACT_APP_APIURL
 ENV REACT_APP_APIURL=$REACT_APP_APIURL
 
 RUN npm run build
 
-# Servir con nginx
+# Stage 2: Servir con Nginx
 FROM nginx:alpine
 COPY --from=build /app/build /usr/share/nginx/html
 EXPOSE 80
