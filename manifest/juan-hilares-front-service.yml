@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: juan-hilares-frontend-service
+  labels:
+    app: juan-hilares-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: juan-hilares-frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 32066

@@ -18,6 +18,8 @@ const MovieList = () => {
     const [showNetflix, setShowNetflix] = useState(false);
     const [showNetflixLen, setShowNetflixLen] = useState(false);
 
+    console.log("API URL utilizada por el frontend:", window._env_?.REACT_APP_APIURL);
+
     const fetchMovies = async () => {
         try {
             const res = await getAllMovies();
@@ -300,5 +302,4 @@ const MovieList = () => {
         </div>
     );
 };
-
 export default MovieList;

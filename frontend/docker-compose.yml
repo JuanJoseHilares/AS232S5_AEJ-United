@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        REACT_APP_APIURL: http://localhost:8085
     container_name: frontend-frontend-react
     ports:
       - "4200:80"

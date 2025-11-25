@@ -1,0 +1,23 @@
+1.-Verificar que los Pods están corriendo
+
+kubectl get pods
+
+2.- Verificar los Deployments
+
+kubectl get deployments
+
+3.-Verificar los Services
+
+kubectl get services
+
+4.- Validar que los Pods no tengan errores ni reinicios
+
+kubectl get pods -o wide
+kubectl describe pod juan-hilares-frontend-deployment-676c989686-nvhlg
+
+5.- Verificar la URL de Minikube para acceder a los servicios
+
+minikube service juan-hilares-backend-service
+
+
+kubectl apply -f juan-hilares-front-deployment.yml  /  minikube service juan-hilares-frontend-service

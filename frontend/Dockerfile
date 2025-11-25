@@ -1,18 +1,29 @@
-# Stage 1: Build
-FROM node:20 AS build
+# -----------------------
+# 1. Build Frontend
+# -----------------------
+FROM node:18-alpine AS build
+
 WORKDIR /app
 
-ARG REACT_APP_APIURL
-ENV REACT_APP_APIURL=$REACT_APP_APIURL
-
 COPY package*.json ./
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY . .
 RUN npm run build
 
-# Stage 2: Serve
+# -----------------------
+# 2. Serve with NGINX
+# -----------------------
 FROM nginx:alpine
+
+# Copiar el build
 COPY --from=build /app/build /usr/share/nginx/html
+
+# Crear env-config.js con valor por defecto
+RUN echo "window._env_ = { REACT_APP_APIURL: 'http://localhost:8085' };" > /usr/share/nginx/html/env-config.js
+
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+# Reemplazar la URL en tiempo de ejecución
+CMD sed -i "s|http://localhost:8085|$REACT_APP_APIURL|g" /usr/share/nginx/html/env-config.js \
+    && nginx -g "daemon off;"

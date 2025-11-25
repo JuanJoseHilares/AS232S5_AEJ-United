@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: juan-hilares-backend-service
+  labels:
+    app: juan-hilares-backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: juan-hilares-backend
+  ports:
+    - port: 8085
+      targetPort: 8085
+      nodePort: 30433

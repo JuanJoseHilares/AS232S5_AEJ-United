@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `${process.env.REACT_APP_APIURL}/v1/api/netflix/languages`;
+const API_URL = `${window._env_.REACT_APP_APIURL}/v1/api/netflix/languages`;
 
 // Obtener todos los lenguajes desde Mongo
 export const getAllLanguages = () => axios.get(`${API_URL}/db/GetAll`);

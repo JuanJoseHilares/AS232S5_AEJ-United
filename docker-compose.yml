@@ -28,8 +28,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        REACT_APP_APIURL: http://localhost:8085
+    environment:
+        REACT_APP_APIURL: hola mundo
     container_name: frontend-app
     ports:
       - "4200:80"

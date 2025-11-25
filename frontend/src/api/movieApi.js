@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = `${process.env.REACT_APP_APIURL}/v1/api/RapidAPI`;
+const API_URL = `${window._env_.REACT_APP_APIURL}/v1/api/RapidAPI`;
 
 export const getAllMovies = () => axios.get(`${API_URL}/Disney/GetAll`);
 

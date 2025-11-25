@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: juan-hilares-backend-deployment
+  labels:
+    app: juan-hilares-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: juan-hilares-backend
+  template:
+    metadata:
+      labels:
+        app: juan-hilares-backend
+    spec:
+      containers:
+        - name: backend
+          image: juanjosehilares/backend-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8085
+          env:
+            - name: PORT
+              value: "8085"
+            - name: SERVER_URL
+              value: "http://juan-hilares-backend-service:8085"
+
+            - name: RAPIDAPI_DISNEY_URL
+              value: "https://disney-plus-top-movies-and-tv-shows-api-by-apirobots.p.rapidapi.com"
+            - name: RAPIDAPI_DISNEY_HOST
+              value: "disney-plus-top-movies-and-tv-shows-api-by-apirobots.p.rapidapi.com"
+            - name: RAPIDAPI_DISNEY_APIKEY
+              value: "bb521ce91fmshe13b754d1467e9fp1bb8a7jsn252d1f31595d"
+
+            - name: RAPIDAPI_NETFLIX_URL
+              value: "https://netflix54.p.rapidapi.com"
+            - name: RAPIDAPI_NETFLIX_HOST
+              value: "netflix54.p.rapidapi.com"
+            - name: RAPIDAPI_NETFLIX_APIKEY
+              value: "bb521ce91fmshe13b754d1467e9fp1bb8a7jsn252d1f31595d"
+
+            - name: SPRING_MONGODB_URI
+              value: "mongodb+srv://juanhilares:12345@cluster0.v0uij.mongodb.net/RapiAPI"
