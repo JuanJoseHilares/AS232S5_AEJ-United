@@ -1,14 +1,20 @@
-# -----------------------
-# 1. Build Frontend
-# -----------------------
 FROM node:20-alpine AS build
 
 WORKDIR /app
 
+# 1. Copia solo los package.json primero
 COPY package*.json ./
+
+# 2. Instala dependencias
 RUN npm install
 
+# 3. Copia el resto del código
 COPY . .
+
+# 4. Arregla permisos del binario react-scripts
+RUN chmod +x node_modules/.bin/react-scripts
+
+# 5. Construye
 RUN npm run build
 
 # -----------------------
