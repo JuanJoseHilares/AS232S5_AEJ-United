@@ -2,35 +2,28 @@ version: "3.9"
 
 services:
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: juanhilares/spring-webflux-backend
     container_name: backend-app
     ports:
       - "8085:8085"
     environment:
       PORT: 8085
-      SERVER_URL: http://localhost:8085
-      
+      SERVER_URL: http://backend:8085
       RAPIDAPI_DISNEY_URL: https://disney-plus-top-movies-and-tv-shows-api-by-apirobots.p.rapidapi.com
       RAPIDAPI_DISNEY_HOST: disney-plus-top-movies-and-tv-shows-api-by-apirobots.p.rapidapi.com
       RAPIDAPI_DISNEY_APIKEY: bb521ce91fmshe13b754d1467e9fp1bb8a7jsn252d1f31595d
-
       RAPIDAPI_NETFLIX_URL: https://netflix54.p.rapidapi.com
       RAPIDAPI_NETFLIX_HOST: netflix54.p.rapidapi.com
       RAPIDAPI_NETFLIX_APIKEY: bb521ce91fmshe13b754d1467e9fp1bb8a7jsn252d1f31595d
-
       SPRING_MONGODB_URI: mongodb+srv://juanhilares:12345@cluster0.v0uij.mongodb.net/RapiAPI
     networks:
       - united-net
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    environment:
-        REACT_APP_APIURL: hola mundo
+    image: juanhilares/frontend-react
     container_name: frontend-app
+    environment:
+      REACT_APP_APIURL: kkolkk
     ports:
       - "4200:80"
     networks:
@@ -41,10 +34,3 @@ services:
 networks:
   united-net:
     driver: bridge
-
-
-    # GET para entrar al Swagger: 
-    # http://localhost:8085/swagger-ui.html
-
-    # GET para entrar al Proyecto de React:
-    # http://localhost:4200
