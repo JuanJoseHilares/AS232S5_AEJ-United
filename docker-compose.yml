@@ -20,10 +20,10 @@ services:
       - united-net
 
   frontend:
-    image: juanhilares/frontend-react
+    image: juanhilares/front-react
     container_name: frontend-app
     environment:
-      REACT_APP_APIURL: kkolkk
+      REACT_APP_APIURL: http://localhost:8085
     ports:
       - "4200:80"
     networks:
