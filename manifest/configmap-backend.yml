@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: default
+data:
+  PORT: "8085"
+  SERVER_URL: "http://127.0.0.1:64877"
+
+  RAPIDAPI_DISNEY_URL: "https://disney-plus-top-movies-and-tv-shows-api-by-apirobots.p.rapidapi.com"
+  RAPIDAPI_DISNEY_HOST: "disney-plus-top-movies-and-tv-shows-api-by-apirobots.p.rapidapi.com"
+
+  RAPIDAPI_NETFLIX_URL: "https://netflix54.p.rapidapi.com"
+  RAPIDAPI_NETFLIX_HOST: "netflix54.p.rapidapi.com"

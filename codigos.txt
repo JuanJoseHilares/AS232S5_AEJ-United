@@ -13,11 +13,47 @@ kubectl get services
 4.- Validar que los Pods no tengan errores ni reinicios
 
 kubectl get pods -o wide
-kubectl describe pod juan-hilares-frontend-deployment-676c989686-nvhlg
 
-5.- Verificar la URL de Minikube para acceder a los servicios
+5.- creamos el backend
+
+kubectl apply -f configmap-backend.yml
+
+kubectl apply -f secret-backend.yml
+
+kubectl apply -f juan-hilares-back-deployment.yml / kubectl apply -f juan-hilares-back-service.yml
 
 minikube service juan-hilares-backend-service
 
+7.- creamos el frontend
 
-kubectl apply -f juan-hilares-front-deployment.yml  /  minikube service juan-hilares-frontend-service
+kubectl apply -f configmap-frontend.yml
+
+kubectl apply -f juan-hilares-front-deployment.yml  / kubectl apply -f juan-hilares-front-service.yml 
+
+minikube service juan-hilares-frontend-service 
+
+reiniciar:
+
+kubectl rollout restart deployment juan-hilares-frontend-deployment
+
+
+----------- Levantar Argo CD en el mismo cluster y poder ingresar --------
+1.- crear namespace
+
+kubectl create namespace argocd
+
+2.- Instalar Argo CD en el cluster
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+3.-Obtener la contraseña del usuario admin
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | % { [System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($_)) }
+
+4.-Exponer Argo CD Server para acceder desde tu PC (https://localhost:8080)
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+
+
+------- BORRAR TODO DE MANIFESTS -------
+
+kubectl delete -f manifest/

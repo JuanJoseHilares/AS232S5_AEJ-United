@@ -16,10 +16,41 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: juanjosehilares/front-app:latest
-          imagePullPolicy: Never
+          image: juanhilares/front-react
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:
             - name: REACT_APP_APIURL
-              value: "http://127.0.0.1:59733"
+              valueFrom:
+                configMapKeyRef:
+                  name: frontend-config
+                  key: REACT_APP_APIURL
+
+          # ------------------------------
+          # Readiness Probe (frontend)
+          # ------------------------------
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 5
+
+          # ------------------------------
+          # Liveness Probe (frontend)
+          # ------------------------------
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+        - name: sidecar
+          image: busybox
+          command: ["sh", "-c", "sleep infinity"]
